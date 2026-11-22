@@ -1,154 +1,184 @@
+
 <?php
+session_start();
 
-require_once 'includes/auth.php';
-include 'includes/connect.php';
+require_once '../includes/connect.php';
 
-if (isset($_SESSION['user'])) {
-    header("Location: index.php");
+// Already logged in?
+if (isset($_SESSION['admin_id'])) {
+    header("Location: dashboard.php");
     exit;
 }
 
 $error = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
-
-    $stmt = mysqli_prepare(
-        $conn,
-        "SELECT id, name, email, password
-         FROM users
-         WHERE email = ?"
-    );
-
-    mysqli_stmt_bind_param($stmt, "s", $email);
-    mysqli_stmt_execute($stmt);
-
-    $result = mysqli_stmt_get_result($stmt);
-
-    $user = mysqli_fetch_assoc($result);
-
-    mysqli_stmt_close($stmt);
-
-    if ($user && password_verify($password, $user['password'])) {
-
-        session_regenerate_id(true);
-
-        $_SESSION['user'] = [
-            'id' => $user['id'],
-            'name' => $user['name'],
-            'email' => $user['email']
-        ];
-
-        header("Location: index.php");
-        exit;
-
-    } else {
-
-        $error = "Incorrect email or password.";
-
-    }
+if (empty($_SESSION['admin_login_token'])) {
+    $_SESSION['admin_login_token'] = bin2hex(random_bytes(32));
 }
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    if (
+        !isset($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['admin_login_token'], $_POST['csrf_token'])
+    ) {
+        $error = "Invalid request. Please refresh the page.";
+    } else {
+
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
+
+        if ($email === "" || $password === "") {
+            $error = "Please enter your email and password.";
+        } else {
+
+            $stmt = mysqli_prepare(
+                $conn,
+                "SELECT id, name, email, password FROM admins WHERE email = ? LIMIT 1"
+            );
+
+            mysqli_stmt_bind_param($stmt, "s", $email);
+            mysqli_stmt_execute($stmt);
+
+            $result = mysqli_stmt_get_result($stmt);
+            $admin = mysqli_fetch_assoc($result);
+
+            if ($admin && password_verify($password, $admin['password'])) {
+
+                session_regenerate_id(true);
+
+                $_SESSION['admin_id'] = $admin['id'];
+                $_SESSION['admin_name'] = $admin['name'];
+                $_SESSION['admin_email'] = $admin['email'];
+
+                unset($_SESSION['admin_login_token']);
+
+                header("Location: dashboard.php");
+                exit;
+
+            } else {
+                $error = "Invalid email or password.";
+            }
+
+            mysqli_stmt_close($stmt);
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login | Hidden Store</title>
+    <title>Admin Login | Hidden Store</title>
 
-    <link rel="stylesheet" href="css/style.css">
-
-    <style>
-        .auth-container {
-            max-width: 450px;
-            margin: 50px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 12px;
-        }
-
-        .auth-container input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0 20px;
-            box-sizing: border-box;
-        }
-
-        .auth-container button {
-            width: 100%;
-            padding: 12px;
-            background: #222;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .error {
-            color: red;
-        }
-
-        .success {
-            color: green;
-        }
-    </style>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
 
-<?php include 'includes/header.php'; ?>
+<div class="container mt-5">
 
-<div class="auth-container">
+    <div class="row justify-content-center">
 
-    <h2>Welcome Back!</h2>
+        <div class="col-md-5">
 
-    <?php if (isset($_GET['registered'])): ?>
-        <p class="success">
-            Registration successful! Please log in.
-        </p>
-    <?php endif; ?>
+            <div class="card shadow">
 
-    <?php if ($error): ?>
-        <p class="error">
-            <?php echo htmlspecialchars($error); ?>
-        </p>
-    <?php endif; ?>
+                <div class="card-body p-4">
 
-    <form method="POST">
+                    <h2 class="text-center mb-3">
+                        HIDDEN STORE
+                    </h2>
 
-        <label>Email Address</label>
+                    <h4 class="text-center mb-4">
+                        Admin Login
+                    </h4>
 
-        <input
-            type="email"
-            name="email"
-            required
-        >
+                    <?php if (isset($_GET['created'])): ?>
 
-        <label>Password</label>
+                        <div class="alert alert-success">
+                            Admin account created successfully! Please log in.
+                        </div>
 
-        <input
-            type="password"
-            name="password"
-            required
-        >
+                    <?php endif; ?>
 
-        <button type="submit">
-            Login
-        </button>
+                    <?php if ($error !== ""): ?>
 
-    </form>
+                        <div class="alert alert-danger">
+                            <?php echo htmlspecialchars($error); ?>
+                        </div>
 
-    <p>
-        Don't have an account?
-        <a href="register.php">Register here</a>
-    </p>
+                    <?php endif; ?>
+
+                    <form method="POST">
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="<?php echo htmlspecialchars($_SESSION['admin_login_token']); ?>"
+                        >
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Admin Email
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter admin email"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter password"
+                                required
+                            >
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark w-100"
+                        >
+                            Login
+                        </button>
+
+                    </form>
+
+                    <div class="text-center mt-3">
+
+                        <a href="../index.php">
+                            Back to Store
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
