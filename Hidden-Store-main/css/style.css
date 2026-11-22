@@ -1,0 +1,643 @@
+/* =====================================
+   HIDDEN STORE - MAIN STYLESHEET
+===================================== */
+
+/* RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f7f6f2;
+    color: #222;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+header {
+    width: 100%;
+    background-color: #171717;
+    color: white;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+header h1 {
+    font-size: 27px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.user-section p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.user-section a {
+    color: white;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.user-section a:hover {
+    color: #d6ad70;
+}
+
+
+/* =====================================
+   HERO SECTION
+===================================== */
+
+.hero {
+    min-height: 330px;
+    background: linear-gradient(120deg, #222222, #45413b);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.hero-content h2 {
+    font-size: 42px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.hero-content p {
+    font-size: 17px;
+    color: #e4e4e4;
+    margin-bottom: 28px;
+}
+
+.shop-btn {
+    display: inline-block;
+    background-color: #d6ad70;
+    color: #171717;
+    padding: 13px 32px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.shop-btn:hover {
+    background-color: white;
+    transform: translateY(-2px);
+}
+
+
+/* =====================================
+   MAIN CONTENT
+===================================== */
+
+main {
+    padding: 45px 5%;
+}
+
+main > h2 {
+    font-size: 29px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+
+/* =====================================
+   PRODUCT GRID
+===================================== */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 250px);
+    gap: 28px;
+    margin-top: 30px;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+}
+
+.product-card {
+    width: 250px;
+    max-width: 250px;
+    min-width: 0;
+
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+/* PRODUCT IMAGES */
+
+.product-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.product-placeholder {
+    width: 100%;
+    height: 220px;
+    background-color: #e9e7e2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #777;
+    font-size: 14px;
+}
+
+
+/* PRODUCT DETAILS */
+
+.product-info {
+    padding: 20px;
+}
+
+.product-info h3 {
+    font-size: 19px;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.product-info p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.product-info .price {
+    font-size: 21px;
+    font-weight: bold;
+    color: #a36c27;
+    margin-top: 15px;
+}
+
+.product-info .stock {
+    font-size: 13px;
+    color: #777;
+}
+
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+button {
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #a36c27;
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.product-card button {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.remove-btn {
+    background-color: #c0392b;
+}
+
+.remove-btn:hover {
+    background-color: #922b21;
+}
+
+.continue-btn,
+.checkout-btn {
+    display: inline-block;
+    background-color: #222;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.continue-btn:hover,
+.checkout-btn:hover {
+    background-color: #a36c27;
+}
+
+
+/* =====================================
+   CART PAGE
+===================================== */
+
+.cart-container {
+    max-width: 950px;
+    margin: 40px auto;
+    padding: 25px;
+}
+
+.cart-container h2 {
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.cart-item {
+    background-color: white;
+    padding: 22px;
+    margin-bottom: 18px;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.cart-item h3 {
+    margin-bottom: 8px;
+}
+
+.cart-item p {
+    margin: 5px 0;
+}
+
+.cart-total {
+    background-color: white;
+    padding: 22px;
+    margin-top: 20px;
+    border-radius: 10px;
+    text-align: right;
+}
+
+.cart-total h2 {
+    color: #a36c27;
+}
+
+
+/* =====================================
+   LOGIN AND REGISTER
+===================================== */
+
+.auth-container {
+    max-width: 450px;
+    margin: 55px auto;
+    padding: 35px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-container label {
+    display: block;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.auth-container input {
+    width: 100%;
+    padding: 13px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.auth-container input:focus {
+    border-color: #a36c27;
+}
+
+.auth-container button {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.auth-container p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-container a {
+    color: #a36c27;
+    font-weight: bold;
+}
+
+
+/* =====================================
+   CHECKOUT PAGE
+===================================== */
+
+.checkout-container {
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 35px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+.checkout-container h2 {
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.checkout-container h3 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.checkout-container label {
+    display: block;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.checkout-container input:not([type="radio"]),
+.checkout-container textarea {
+    width: 100%;
+    padding: 13px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.checkout-container input:focus,
+.checkout-container textarea:focus {
+    border-color: #a36c27;
+}
+
+.checkout-container textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+
+/* ORDER SUMMARY */
+
+.order-summary {
+    background-color: #f4f2ed;
+    padding: 22px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+}
+
+.order-summary p {
+    margin: 10px 0;
+}
+
+.order-summary h3 {
+    color: #a36c27;
+}
+
+
+/* PAYMENT OPTIONS */
+
+.payment-option {
+    display: block;
+    padding: 15px;
+    margin: 12px 0;
+    background-color: #f7f6f2;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.payment-option input {
+    margin-right: 10px;
+}
+
+.demo-note {
+    font-size: 13px;
+    color: #777;
+}
+
+
+/* PLACE ORDER */
+
+.place-order-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #222;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.place-order-btn:hover {
+    background-color: #a36c27;
+}
+
+
+/* ERROR AND SUCCESS MESSAGES */
+
+.checkout-error {
+    color: #a32121;
+    background-color: #ffe7e7;
+    padding: 13px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+
+/* =====================================
+   ORDER SUCCESS PAGE
+===================================== */
+
+.success-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 35px;
+    background-color: white;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+.success-container h2 {
+    color: #248b45;
+    margin-bottom: 20px;
+}
+
+.success-container p {
+    margin: 12px 0;
+}
+
+
+/* =====================================
+   FOOTER
+===================================== */
+
+footer {
+    background-color: #171717;
+    color: white;
+    text-align: center;
+    padding: 35px 20px;
+    margin-top: 50px;
+}
+
+footer h3 {
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+footer p {
+    color: #ccc;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+
+/* =====================================
+   RESPONSIVE DESIGN
+===================================== */
+
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .user-section {
+        justify-content: center;
+    }
+
+    .hero {
+        min-height: 280px;
+    }
+
+    .hero-content h2 {
+        font-size: 30px;
+    }
+
+    main {
+        padding: 30px 5%;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .checkout-container,
+    .auth-container,
+    .cart-container,
+    .success-container {
+        margin: 20px 12px;
+        padding: 22px;
+    }
+}
+
+
+/* =====================================
+   MOBILE PRODUCT GRID
+===================================== */
+
+@media (max-width: 600px) {
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-card {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .product-card img,
+    .product-placeholder {
+        height: 180px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-card {
+        width: 100%;
+    }
+
+    .product-card img,
+    .product-placeholder {
+        height: 220px;
+    }
+}
